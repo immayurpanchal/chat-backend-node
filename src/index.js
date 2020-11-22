@@ -1,12 +1,17 @@
 const express = require('express');
+const config = require('./config/app');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-const port = 3000;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get('/home', (req, res) => {
-	res.send('Home Screen');
-});
+const router = require('./router');
+
+app.use(router);
+
+const port = config.appPort || 3000;
 
 app.listen(port, () => {
 	console.log(`Server is up and running 🔥 on port ${port}`);
